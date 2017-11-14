@@ -12,21 +12,25 @@ MOUNTS="${XORG_MOUNTS} ${DBUS_MOUNTS}"
 image=$(docker images --format "{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" "${REPONAME}:${TAG}")
 
 BUILD=false
-if [ -z "${image}" ]; then
-  echo "(INFO) ${REPONAME} Docker image not found, building..."
-  BUILD=true
-fi
 
 if [ "$1" == "--delete" ]; then
   echo "(INFO) Removing Docker image."
   shift
   [ -n "${image}" ] && docker rmi "${REPONAME}"
+
+  # If --delete is the only argument, exit.
+  [ -z "$1" ] && exit
 fi
 
 if [ "$1" == "--build" ]; then
   echo "(INFO) Building ${REPONAME} Docker image."
   BUILD=true
   shift
+fi
+
+if [ -z "${image}" ] && ! $BUILD; then
+  echo "(INFO) ${REPONAME} Docker image not found, building..."
+  BUILD=true
 fi
 
 if $BUILD; then
