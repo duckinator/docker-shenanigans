@@ -23,8 +23,8 @@ if [ "$1" == "--delete" ]; then
   [ -n "${image}" ] && docker rmi "${REPONAME}"
 fi
 
-if [ "$1" == "--rebuild" ]; then
-  echo "(INFO) Rebuilding ${REPONAME} Docker image."
+if [ "$1" == "--build" ]; then
+  echo "(INFO) Building ${REPONAME} Docker image."
   REBUILD=true
   shift
 fi
