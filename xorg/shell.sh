@@ -37,7 +37,7 @@ fi
 # I think this means anything with access to the unix socket?
 xhost +local:
 
-docker run --rm -it ${MOUNTS} -w /home/ubuntu -u $(id -u) -e DISPLAY="unix${DISPLAY}" "${REPONAME}" "$@"
+docker run --rm -it ${MOUNTS} -w /home/alpine -u $(id -u) -e DISPLAY="unix${DISPLAY}" "${REPONAME}" "$@"
 
 # Revert changes above.
 xhost -local:
