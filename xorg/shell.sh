@@ -5,7 +5,9 @@ set -e
 
 REPONAME="docker-shenanigans-xorg"
 TAG="latest"
-MOUNTS="-v /tmp/.X11-unix/:/tmp/.X11-unix/:rw -w /home/ubuntu"
+XORG_MOUNTS="-v /tmp/.X11-unix/:/tmp/.X11-unix/:rw"
+DBUS_MOUNTS="-v /var/run/dbus/:/var/run/dbus/:rw -v /etc/machine-id:/etc/machine-id:ro"
+MOUNTS="${XORG_MOUNTS} ${DBUS_MOUNTS}"
 
 image=$(docker images --format "{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" "${REPONAME}:${TAG}")
 
@@ -35,7 +37,7 @@ fi
 # I think this means anything with access to the unix socket?
 xhost +local:
 
-docker run --rm -it ${MOUNTS} ${XAUTH_MOUNTS} -u $(id -u) -e DISPLAY="unix${DISPLAY}" "${REPONAME}" "$@"
+docker run --rm -it ${MOUNTS} -w /home/ubuntu -u $(id -u) -e DISPLAY="unix${DISPLAY}" "${REPONAME}" "$@"
 
 # Revert changes above.
 xhost -local:
