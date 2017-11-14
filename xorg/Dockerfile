@@ -1,6 +1,8 @@
 FROM alpine:3.6
 
-RUN apk add --no-cache binutils bash shadow sudo ttf-dejavu hexchat
+ENV LANG "en_US.UTF-8"
+
+RUN apk add --no-cache binutils bash shadow sudo ca-certificates ttf-dejavu hexchat
 
 RUN useradd --create-home --shell /bin/bash alpine && \
       gpasswd -a alpine wheel && \
@@ -8,5 +10,6 @@ RUN useradd --create-home --shell /bin/bash alpine && \
       echo "%wheel ALL=(ALL) ALL" > /etc/sudoers.d/wheel
 USER alpine
 
-CMD ["/bin/bash", "--login"]
+#CMD ["/bin/bash", "--login"]
+CMD ["hexchat"]
 
