@@ -5,8 +5,8 @@ set -e
 
 REPONAME="docker-shenanigans-xorg"
 TAG="latest"
-XORG_MOUNTS="-v /tmp/.X11-unix/:/tmp/.X11-unix/:rw"
-DBUS_MOUNTS="-v /var/run/dbus/:/var/run/dbus/:rw -v /etc/machine-id:/etc/machine-id:ro"
+XORG_MOUNTS="-v /tmp/.X11-unix/:/tmp/.X11-unix/:ro"
+DBUS_MOUNTS="-v /var/run/dbus/:/var/run/dbus/:ro -v /etc/machine-id:/etc/machine-id:ro"
 MOUNTS="${XORG_MOUNTS} ${DBUS_MOUNTS}"
 
 image=$(docker images --format "{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" "${REPONAME}:${TAG}")
