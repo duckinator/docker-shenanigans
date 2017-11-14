@@ -11,10 +11,10 @@ MOUNTS="${XORG_MOUNTS} ${DBUS_MOUNTS}"
 
 image=$(docker images --format "{{.Repository}}\t{{.Tag}}\t{{.CreatedAt}}" "${REPONAME}:${TAG}")
 
-REBUILD=false
+BUILD=false
 if [ -z "${image}" ]; then
   echo "(INFO) ${REPONAME} Docker image not found, building..."
-  REBUILD=true
+  BUILD=true
 fi
 
 if [ "$1" == "--delete" ]; then
@@ -25,11 +25,11 @@ fi
 
 if [ "$1" == "--build" ]; then
   echo "(INFO) Building ${REPONAME} Docker image."
-  REBUILD=true
+  BUILD=true
   shift
 fi
 
-if $REBUILD; then
+if $BUILD; then
     docker build . -t "${REPONAME}"
 fi
 
